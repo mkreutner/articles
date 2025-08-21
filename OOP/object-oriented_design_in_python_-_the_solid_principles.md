@@ -1,4 +1,4 @@
-# Object-Oriented Design (OOD) in Python: The SOLID Principles
+## Object-Oriented Design (OOD) in Python: The SOLID Principles
 
 Pour écrire des classes et concevoir leurs interactions en Python, 
 vous pouvez suivre une série de principes qui vous aideront à créer 
@@ -17,16 +17,14 @@ cinq principes fondamentaux applicables à la conception orientée objet.
 
 Ces principes sont les suivants :
 
-* Principe de responsabilité unique (SRP)
-* Principe ouvert-fermé (OCP)
-* Principe de substitution de Liskov (LSP)
-* Principe de ségrégation des interfaces (ISP)
-* Principe d'inversion des dépendances (DIP)
+* [Single-Responsibility Principle (SRP)](./single-responsibility_principle.md) - Principe de responsabilité unique (SRP)
+* [Open-Closed Principle (OCP)](./open-closed_principle.md) - Principe ouvert-fermé (OCP)
+* [Liskov Substitution Principle (LSP)](./liskov_substitution_principle.md) - Principe de substitution de Liskov (LSP)
+* [Interface Segregation Principle (ISP)](./interface_segregation_principle.md) - Principe de ségrégation des interfaces (ISP)
+* [Dependency Inversion Principle (DIP)](./dependency_inversion_principle.md) - Principe d'inversion des dépendances (DIP)
 
 Vous explorerez chacun de ces principes en détail et coderez des exemples 
 concrets pour les appliquer en Python. Ce faisant, vous acquerrez une 
 solide compréhension de la manière d'écrire du code orienté objet plus 
 simple, organisé, évolutif et réutilisable en appliquant les principes 
 SOLID. Pour commencer, vous commencerez par le premier principe de la liste.
-
-## Principe de responsabilité unique (SRP)

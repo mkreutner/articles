@@ -8,7 +8,7 @@
 * [ ] [Liskov Substitution Principle (LSP)](./liskov_substitution_principle.md)
 * [ ] [Interface Segregation Principle (ISP)](./interface_segregation_principle.md)
 * [ ] [Dependency Inversion Principle (DIP)](./dependency_inversion_principle.md)
-* [ ] [Conclusion](./conclision.md)
+* [ ] [Conclusion](./conclusion.md)
 
 Lorsque vous développez un projet Python en **programmation orientée objet** (OOP), 
 planifier l'interaction des différentes classes et objets pour résoudre vos 

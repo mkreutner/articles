@@ -3,12 +3,12 @@
 ## Table of Contents
 
 * [X] [Object-Oriented Design in Python: The SOLID Principles](./object-oriented_design_in_python_-_the_solid_principles.md)
-* [ ] [Single-Responsibility Principle (SRP)](./single-responsibility_principle.md)
-* [ ] [Open-Closed Principle (OCP)](./open-closed_principle.md)
-* [ ] [Liskov Substitution Principle (LSP)](./liskov_substitution_principle.md)
-* [ ] [Interface Segregation Principle (ISP)](./interface_segregation_principle.md)
-* [ ] [Dependency Inversion Principle (DIP)](./dependency_inversion_principle.md)
-* [ ] [Conclusion](./conclusion.md)
+* [X] [Single-Responsibility Principle (SRP)](./single-responsibility_principle.md)
+* [X] [Open-Closed Principle (OCP)](./open-closed_principle.md)
+* [X] [Liskov Substitution Principle (LSP)](./liskov_substitution_principle.md)
+* [X] [Interface Segregation Principle (ISP)](./interface_segregation_principle.md)
+* [X] [Dependency Inversion Principle (DIP)](./dependency_inversion_principle.md)
+* [X] [Conclusion](./conclusion.md)
 
 Lorsque vous développez un projet Python en **programmation orientée objet** (OOP), 
 planifier l'interaction des différentes classes et objets pour résoudre vos 

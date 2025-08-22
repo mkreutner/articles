@@ -113,3 +113,12 @@ Cette classe fournit l'[interface (API)](https://en.wikipedia.org/wiki/API) requ
 forme que vous souhaitez définir. Cette [interface](https://realpython.com/python-interface/) se compose d'un attribut 
 `.shape_type` et d'une méthode `.calculate_area()` que vous devez surcharger dans toutes les sous-classes.
 
+> Remarque : L'exemple ci-dessus et certains exemples des sections suivantes utilisent Python ABCs 
+> pour fournir ce que l'on appelle l'**héritage d'interface** (**interface inheritance**). Dans ce type 
+> d'héritage, les sous-classes héritent des interfaces plutôt que des fonctionnalités. À l'inverse, 
+> lorsque les classes héritent des fonctionnalités, on parle d'**héritage d'implémentation** 
+> (**implementation inheritance**).
+
+Cette mise à jour ferme la classe aux modifications. Vous pouvez désormais ajouter de nouvelles 
+formes à votre conception de classe sans avoir à modifier `Shape`. Dans tous les cas, vous 
+devrez implémenter l'interface requise, ce qui rend également vos classes [polymorphes](https://realpython.com/python-classes/#unlocking-polymorphism-with-common-interfaces).

@@ -305,3 +305,118 @@ est le sujet de la section suivante.
 
 ## Création de fonctions de générateur asynchrone
 
+Dans la documentation Python, un **générateur asynchrone** est défini comme suit :
+
+
+> A function which returns an [asynchronous generator iterator](https://docs.python.org/3/glossary.html#term-asynchronous-generator-iterator). 
+> It looks like a coroutine function defined with [`async def`](https://docs.python.org/3/reference/compound_stmts.html#async-def) 
+> except that it contains yield expressions for producing a series of values usable in an async `for` loop.
+> ([Source](https://docs.python.org/3/glossary.html#term-asynchronous-generator))
+
+> Une fonction qui renvoie un **itérateur de [générateur asynchrone](https://docs.python.org/3/glossary.html#term-asynchronous-generator-iterator). 
+> Elle ressemble à une fonction coroutine définie avec [`async def`](https://docs.python.org/3/reference/compound_stmts.html#async-def), 
+> sauf qu'elle contient des expressions `yield` pour produire une série de valeurs utilisables dans une boucle `for` asynchrone. 
+> ([Source](https://docs.python.org/3/glossary.html#term-asynchronous-generator))
+
+Pour une illustration rapide d'un itérateur de générateur, considérez la modification 
+suivante de votre itérateur de plage asynchrone :
+
+```python
+# async_range_v3.py
+
+import asyncio
+
+async def async_range(start, end):
+    for i in range(start, end):
+        await asyncio.sleep(0.5)
+        yield i
+
+async def main():
+    async for i in async_range(0, 5):
+        print(i)
+
+asyncio.run(main())
+```
+
+Un générateur asynchrone est une fonction coroutine définie à l'aide du mot-clé `async def`. 
+Cette fonction doit comporter une instruction `yield` pour générer des objets waitables à 
+la demande. Dans cet exemple, vous simulez l'objet waitable avec `asyncio.sleep()`, comme 
+précédemment.
+
+Les fonctions de générateur asynchrone peuvent contenir des expressions [`await`](https://docs.python.org/3/reference/expressions.html#await), 
+des boucles `for` async et des instructions [with async](https://docs.python.org/3/reference/compound_stmts.html#async-with). 
+Ce type de fonction renvoie un itérateur générateur asynchrone qui génère des éléments à la demande.
+
+Pour un exemple plus détaillé, imaginons que vous souhaitiez créer un script pour sauvegarder 
+les fichiers d'un répertoire donné. Ce script traitera les fichiers de manière asynchrone et 
+générera un [fichier ZIP](https://realpython.com/python-zipfile/) avec leur contenu.
+
+Voici une implémentation possible de votre script de sauvegarde. Pour que le script fonctionne, 
+vous devez installer les packages `aiofiles` et `aiozipstream` depuis PyPI à l'aide de `pip` 
+et de la commande suivante :
+
+```shell
+$ python -m pip install aiofiles aiozipstream
+```
+
+Vous pouvez utiliser egalement [`uv`](https://docs.astral.sh/uv/)
+
+```shell
+# utiliser la configuration du project actuelle
+$ uv add --requirements
+# installer depuis un nouveau projet
+$ uv init
+$ uv add aiofiles aiozipstream
+```
+
+Maintenant que vous avez installé les dépendances externes, vous pouvez jeter un oeil au code :
+
+```python
+# compress.py
+
+import asyncio
+from pathlib import Path
+
+import aiofiles
+from zipstream import AioZipStream
+
+async def stream_generator(files):
+    async_zipstream = AioZipStream(files)
+    async for chunk in async_zipstream.stream():
+        yield chunk
+
+async def main(directory, zip_name="output.zip"):
+    files = [
+        {"file": path}
+        for path in directory.iterdir()
+        if path.is_file()
+    ]
+    async with aiofiles.open(zip_name, mode="wb") as archive:
+        async for chunk in stream_generator(files):
+            await archive.write(chunk)
+
+directory = Path.cwd()
+asyncio.run(main(directory))
+```
+
+Dans cet exemple, vous importez d'abord les modules et classes requis. Ensuite, à la ligne 7, vous 
+définissez une fonction de génération asynchrone. Cette fonction prend une liste de fichiers en argument. 
+Les éléments de cette liste doivent être des dictionnaires dont la clé "`file`" correspond au chemin 
+d'accès du fichier. À la ligne 8, vous créez un `AioZipStream` en utilisant la liste de fichiers en argument.
+
+À la ligne 9, vous démarrez une boucle `for` asynchrone sur le flux de données compressées. Par défaut, 
+la méthode `.stream()` renvoie les données compressées sous forme de blocs de 1024 octets maximum. 
+À la ligne 10, vous produisez des blocs de données à la demande avec l'instruction `yield`. Cette 
+instruction transforme la fonction en générateur asynchrone.
+
+À la ligne 22, vous créez la variable directory pour contenir le répertoire cible. Dans cet exemple, 
+vous utilisez `Path.cwd()` qui vous donne le répertoire de travail actuel. Autrement dit, le répertoire 
+par défaut est le dossier d'exécution de votre script. Enfin, vous exécutez la boucle d'événements. 
+Si vous exécutez ce script en ligne de commande, vous obtiendrez une archive ZIP contenant les fichiers 
+du répertoire du script.
+
+En pratique, l'utilisation de fonctions de génération asynchrone comme celles présentées dans cette 
+section est l'approche la plus rapide et la plus recommandée pour créer des itérateurs asynchrones en 
+Python. Cependant, si vos itérateurs doivent conserver un état interne, vous pouvez utiliser des itérateurs 
+asynchrones basés sur des classes.
+

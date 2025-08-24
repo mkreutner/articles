@@ -420,3 +420,20 @@ section est l'approche la plus rapide et la plus recommandée pour créer des it
 Python. Cependant, si vos itérateurs doivent conserver un état interne, vous pouvez utiliser des itérateurs 
 asynchrones basés sur des classes.
 
+## Création de classes basés sur des itérateurs et itérables asynchrones
+
+Si vous devez créer des itérateurs asynchrones qui maintiennent un état interne, vous pouvez 
+utiliser une [classe](https://realpython.com/python-classes/). Dans ce cas, votre classe doit 
+implémenter les méthodes spéciales `.__aiter__()` et `.__anext__()`.
+
+Dans les sections suivantes, vous étudierez `.__aiter__()` et `.__anext__()` plus en détail. 
+Pour commencer, vous découvrirez la méthode `.__aiter__()`, qui fait partie du protocole des 
+itérateurs asynchrones et est la seule méthode requise pour implémenter des itérables asynchrones. 
+Vous découvrirez ensuite la méthode `.__anext__()`.
+
+```python
+class AsyncIterator:
+    def __aiter__(self):
+        return self
+```
+

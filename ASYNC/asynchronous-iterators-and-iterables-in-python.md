@@ -437,3 +437,54 @@ class AsyncIterator:
         return self
 ```
 
+Cette implémentation est simple. Vous définissez la méthode comme une méthode d'instance 
+standard et renvoyez `self`, qui contient l'objet courant, et l'objet est l'itérateur.
+
+> Remarque : avec les itérateurs asynchrones, il est essentiel de définir la méthode 
+> `.__aiter__()` avec le mot-clé def plutôt que la construction du mot-clé async def.
+
+Lors de la création d'itérables asynchrones, il suffit d'implémenter la méthode 
+`.__aiter__()` pour que l'itérable fonctionne. Cependant, dans ce cas, la méthode aura 
+une implémentation plus élaborée qui renvoie un objet itérateur asynchrone approprié 
+produisant des éléments à la demande.
+
+En pratique, vous coderez souvent `.__aiter__()` comme une fonction génératrice 
+asynchrone avec l'instruction `yield`. Par exemple, imaginons que vous souhaitiez 
+créer un itérable asynchrone pour traiter des fichiers volumineux. Dans ce cas, vous 
+pourriez obtenir le code suivant :
+
+```python
+# large_file_iterable_v1.py
+
+import asyncio
+
+import aiofiles
+
+class AsyncFileIterable:
+    def __init__(self, path, chunk_size=1024):
+        self.path = path
+        self.chunk_size = chunk_size
+
+    async def __aiter__(self):
+        async with aiofiles.open(self.path, mode="rb") as file:
+            while True:
+                chunk = await file.read(self.chunk_size)
+                if not chunk:
+                    break
+                yield chunk
+
+async def main():
+    async for chunk in AsyncFileIterable("large-file.md"):
+        # Process the file chunk here...
+        await asyncio.sleep(0.2)
+        print(chunk.decode("utf-8"))
+
+asyncio.run(main())
+```
+
+Dans cet exemple, la classe `AsyncFileIterable` implémente uniquement la méthode 
+`.__aiter__()` comme fonction génératrice asynchrone. Cette méthode ouvre le fichier 
+d'entrée et le lit par blocs. Elle génère ensuite des blocs de fichiers à la demande. 
+Grâce à cet itérateur, vous pouvez traiter des fichiers volumineux par blocs sans 
+bloquer l'exécution du script. C'est ce que vous simulez dans la fonction `main()` 
+du script.
